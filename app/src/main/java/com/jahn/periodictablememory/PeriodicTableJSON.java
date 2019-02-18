@@ -10,8 +10,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class PeriodicTableJSON {
+  Context context;
 
-  public String loadJSONFromAsset(Context context) {
+  public PeriodicTableJSON(Context context) {
+    this.context = context;
+  }
+
+  public String loadJSONFromAsset() {
     String json = null;
     try {
       InputStream is = context.getAssets().open("PeriodicTableJSON.json");
@@ -40,7 +45,7 @@ public class PeriodicTableJSON {
     JSONArray periodicTableElements = null;
 
     try {
-      periodicTable = new JSONObject(loadJSONFromAsset(MainActivity.this));
+      periodicTable = new JSONObject(loadJSONFromAsset());
       System.out.println(periodicTable);
     } catch (JSONException e) {
       e.printStackTrace();

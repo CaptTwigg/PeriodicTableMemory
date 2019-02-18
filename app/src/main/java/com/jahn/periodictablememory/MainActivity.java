@@ -16,11 +16,15 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-  JSONObject periodicTable = null;
+  JSONArray periodicTable = null;
   Button nextButton = null;
   Button prevButton = null;
   int elementindex = 0;
@@ -31,20 +35,17 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    System.out.println("JSON DATA :");
-    try {
-      periodicTable = new JSONObject(loadJSONFromAsset(MainActivity.this));
-      System.out.println(periodicTable);
-    } catch (JSONException e) {
-      e.printStackTrace();
-    }
+    PeriodicTableJSON periodicTableJSON = new PeriodicTableJSON(MainActivity.this);
+    periodicTable = periodicTableJSON.getPeriodicTable();
+    elementindex = new Random().nextInt(119);
     buttons = new Button[]{
-            findViewById(R.id.answear1),
-            findViewById(R.id.answear2),
-            findViewById(R.id.answear3),
-            findViewById(R.id.answear4)
+      findViewById(R.id.answear1),
+      findViewById(R.id.answear2),
+      findViewById(R.id.answear3),
+      findViewById(R.id.answear4)
     };
 
+    setElementText("");
 
     nextButton = findViewById(R.id.next);
     nextButton.setOnClickListener(new View.OnClickListener() {
@@ -62,8 +63,10 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
-    setAnswerButtons();
-    for(Button button : buttons)
+    // setAnswerButtons();
+
+
+    for (Button button : buttons)
       button.setOnClickListener(new View.OnClickListener() {
         public void onClick(View v) {
           // Code here executes on main thread after user presses button
@@ -73,49 +76,21 @@ public class MainActivity extends AppCompatActivity {
 
   }
 
-  public String loadJSONFromAsset(Context context) {
-    String json = null;
-    try {
-      InputStream is = context.getAssets().open("PeriodicTableJSON.json");
-
-      int size = is.available();
-
-      byte[] buffer = new byte[size];
-
-      is.read(buffer);
-
-      is.close();
-
-      json = new String(buffer, "UTF-16LE");
-
-
-    } catch (IOException ex) {
-      ex.printStackTrace();
-      return null;
-    }
-    return json;
-
-  }
 
   public void setElementText(String next) {
 
     TextView textView = findViewById(R.id.ElementName);
-    int periodictableLength = 0;
-    try {
-      periodictableLength = periodicTable.getJSONArray("elements").length();
-    } catch (JSONException e) {
-      e.printStackTrace();
-    }
+    int periodictableLength = periodicTable.length();
+
     if (next.equals("next") && elementindex < periodictableLength - 1)
       elementindex++;
     if (next.equals("prev") && elementindex > 0)
       elementindex--;
 
-    System.out.println("element index: " + elementindex);
     setAnswerButtons();
     resetButtonColor();
     try {
-      textView.setText((CharSequence) getElement(elementindex).get("name"));
+      textView.setText((CharSequence) periodicTable.getJSONObject(elementindex).get("name"));
     } catch (JSONException e) {
       e.printStackTrace();
     }
@@ -126,54 +101,91 @@ public class MainActivity extends AppCompatActivity {
 
     Random random = new Random();
     int index = random.nextInt(buttons.length);
-    JSONObject currectElement = getElement(elementindex);
+    JSONObject currectElement = null;
+    try {
+      currectElement = periodicTable.getJSONObject(elementindex);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+    int[] answerArray = getAnswerIndexs();
+    Collections.shuffle(Arrays.asList(answerArray));
 
     for (int i = 0; i < buttons.length; i++) {
-      int randomElement = random.nextInt(periodicTable.length());
       try {
-        if (i == index) {
-          buttons[i].setText("" + currectElement.get("atomic_mass"));
-        } else {
-          buttons[i].setText("" + getElement(randomElement).get("atomic_mass"));
-        }
+        buttons[i].setText("" + periodicTable.getJSONObject(answerArray[i]).get("atomic_mass"));
       } catch (JSONException e) {
         e.printStackTrace();
       }
+
     }
 
   }
 
-  public JSONObject getElement(int index) {
-    JSONArray array = null;
-    JSONObject element = null;
-    try {
-      array = periodicTable.getJSONArray("elements");
-      element = array.getJSONObject(index);
-    } catch (JSONException e) {
-      e.printStackTrace();
-    }
-    return element;
-  }
 
-
-
-  public void highLightCurrectButton(){
+  public void highLightCurrectButton() {
     String currectAnswer = "";
     try {
-      currectAnswer = ""+ getElement(elementindex).get("atomic_mass");
+      currectAnswer = "" + periodicTable.getJSONObject(elementindex).get("atomic_mass");
     } catch (JSONException e) {
       e.printStackTrace();
     }
 
     for (int i = 0; i < buttons.length; i++) {
-      if(currectAnswer.equals(buttons[i].getText()))
+      if (currectAnswer.equals(buttons[i].getText()))
         buttons[i].getBackground().setColorFilter(Color.rgb(66, 244, 92), PorterDuff.Mode.MULTIPLY);
     }
   }
 
-  public void resetButtonColor(){
+  public void resetButtonColor() {
     for (Button b : buttons) {
       b.getBackground().clearColorFilter();
     }
+  }
+
+  public int[] getAnswerIndexs() {
+    int[] array = new int[4];
+
+
+    int space = 7;
+    int index = 0;
+    int max = periodicTable.length() - elementindex > space ? space : periodicTable.length() - elementindex - 1;
+    int min = elementindex > space ? space : elementindex;
+    process: do {
+
+      int randomElementIndex = new Random().nextInt((max - min) + min)+1;
+      System.out.println("\nelementindex: " + elementindex +"\nrandomElementIndex: "  + randomElementIndex);
+
+      boolean plusOrMinus = new Random().nextBoolean();
+      int returnindex;
+      if (max < 3)
+        returnindex = elementindex - randomElementIndex;
+      else if (min < 3)
+        returnindex = elementindex + randomElementIndex;
+      else
+        returnindex = plusOrMinus ? elementindex + randomElementIndex : elementindex - randomElementIndex;
+
+
+      for (int i = 0; i < index; i++) {
+        System.out.println(Arrays.toString(array));
+        System.out.println("\ncurrect element: " + (array[i] == elementindex) + "\nreturn element: " + (returnindex == array[i]));
+
+        if (returnindex == array[i]){
+          System.out.println("array element: " + array[i] );
+          System.out.println("index: " + index);
+          continue process;
+
+        }
+      }
+      array[index] = returnindex;
+      index++;
+
+    } while (index < array.length - 1);
+
+    array[3] = elementindex;
+    System.out.println("plus: " + max);
+    System.out.println("minus: " + min);
+    System.out.println(Arrays.toString(array));
+    return array;
+
   }
 }
