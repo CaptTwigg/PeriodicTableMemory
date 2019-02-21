@@ -40,9 +40,10 @@ public class PeriodicTableJSON {
 
   }
 
-  public JSONArray getPeriodicTable(){
+  public JSONArray getPeriodicTable(int from, int to){
     JSONObject periodicTable = null;
     JSONArray periodicTableElements = null;
+    JSONArray periodicTableElementsRanged = new JSONArray();
 
     try {
       periodicTable = new JSONObject(loadJSONFromAsset());
@@ -55,6 +56,13 @@ public class PeriodicTableJSON {
     } catch (JSONException e) {
       e.printStackTrace();
     }
-    return periodicTableElements;
+    for (int i = from; i < to; i++) {
+      try {
+        periodicTableElementsRanged.put(periodicTableElements.get(i));
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
+    }
+    return periodicTableElementsRanged;
   }
 }
