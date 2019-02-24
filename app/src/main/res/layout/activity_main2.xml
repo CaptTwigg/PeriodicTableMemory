@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout2"
+    android:id="@+id/Main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -13,7 +13,7 @@
         android:layout_height="290dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintBottom_toTopOf="@+id/AnswerCon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/elementbackground" />
@@ -43,23 +43,24 @@
         app:layout_constraintTop_toBottomOf="@+id/ElementName" />
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/ElementviewCon"
         android:layout_width="287dp"
         android:layout_height="287dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintBottom_toTopOf="@+id/AnswerCon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/ElementName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="124dp"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="124dp"
+            android:shadowColor="@android:color/background_dark"
             android:text="ElementName"
-            android:textSize="24sp"
+            android:textSize="36sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Symbol"
@@ -69,8 +70,8 @@
             android:id="@+id/Symbol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Symbol"
-            android:textSize="36sp"
+            android:text="H"
+            android:textSize="70sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -79,11 +80,11 @@
         <TextView
             android:id="@+id/Number"
             android:layout_width="wrap_content"
-            android:layout_height="23dp"
+            android:layout_height="45dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Number"
-            android:textSize="18sp"
+            android:text="44"
+            android:textSize="30sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -94,6 +95,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="Groupe"
+            android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@+id/Number"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -103,6 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="Period"
+            android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@+id/Number"
             app:layout_constraintTop_toBottomOf="@+id/Group" />
 
@@ -111,17 +114,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:text="Mass"
-            android:textSize="18sp"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/ElementName" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/AnswerCon"
         android:layout_width="0dp"
         android:layout_height="378dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -137,6 +139,7 @@
             android:layout_height="150dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="32dp"
+            android:background="@drawable/rounded_corner_button"
             android:text="@string"
             android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -153,13 +156,16 @@
             android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/answear4"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/rounded_corner_button"/>
 
         <Button
             android:id="@+id/answear2"
             android:layout_width="175dp"
             android:layout_height="150dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/rounded_corner_button"
             android:text="@string"
             android:textAllCaps="false"
             app:layout_constraintBottom_toTopOf="@+id/answear4"
@@ -171,6 +177,9 @@
             android:layout_width="175dp"
             android:layout_height="150dp"
             android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/rounded_corner_button"
+            android:elevation="0dp"
             android:padding="10dp"
             android:text="@string"
             android:textAllCaps="false"

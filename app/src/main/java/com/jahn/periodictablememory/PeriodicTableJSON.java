@@ -22,15 +22,10 @@ public class PeriodicTableJSON {
       InputStream is = context.getAssets().open("PeriodicTableJSON.json");
 
       int size = is.available();
-
       byte[] buffer = new byte[size];
-
       is.read(buffer);
-
       is.close();
-
       json = new String(buffer, "UTF-16LE");
-
 
     } catch (IOException ex) {
       ex.printStackTrace();
