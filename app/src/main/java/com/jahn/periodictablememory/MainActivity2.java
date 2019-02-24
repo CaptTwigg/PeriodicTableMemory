@@ -1,31 +1,25 @@
 package com.jahn.periodictablememory;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity2 extends AppCompatActivity {
 
   JSONArray periodicTable = null;
 
@@ -39,13 +33,28 @@ public class MainActivity extends AppCompatActivity {
   int topicIndex = 0;
   List<String> answers = new ArrayList<>();
 
+  TextView Symbol = null;
+  TextView Mass = null;
+  TextView ElementName =null;
+  TextView Period = null;
+  TextView Number =null;
+  TextView Group =null;
+
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+    setContentView(R.layout.activity_main2);
     getSupportActionBar().hide(); //hide the title bar
 
-    PeriodicTableJSON periodicTableJSON = new PeriodicTableJSON(MainActivity.this);
+
+     Symbol = findViewById(R.id.Symbol);
+     Mass = findViewById(R.id.Mass);
+     ElementName = findViewById(R.id.ElementName);
+     Period = findViewById(R.id.Period);
+     Number = findViewById(R.id.Number);
+     Group = findViewById(R.id.Group);
+    PeriodicTableJSON periodicTableJSON = new PeriodicTableJSON(MainActivity2.this);
     periodicTable = periodicTableJSON.getPeriodicTable(0, 91);
     elementindex = new Random().nextInt(periodicTable.length());
     try {
@@ -69,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
           // Code here executes on main thread after user presses button
           highLightCurrectButton();
+          updateElementView();
           setScore((String) button.getText());
           String answer = (String) button.getText();
           answers.add(answer);
@@ -88,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
 
 
   public void setElementText() {
-    TextView elementTextView = findViewById(R.id.ElementName);
     int periodictableLength = periodicTable.length();
     topic = topics[topicIndex];
     setWhatToGuess();
@@ -99,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
 
     try {
       currentElement = periodicTable.getJSONObject(elementindex);
-      elementTextView.setText((CharSequence) currentElement.get("name"));
     } catch (JSONException e) {
       e.printStackTrace();
     }
@@ -219,9 +227,7 @@ public class MainActivity extends AppCompatActivity {
       scoreStreak = 1;
     }
     TextView scoreView = findViewById(R.id.score);
-    TextView steakView = findViewById(R.id.streak);
     scoreView.setText(String.format("%d Points", score));
-    steakView.setText(String.format("%d X multiplier", scoreStreak));
   }
 
   public void setWhatToGuess() {
@@ -234,5 +240,13 @@ public class MainActivity extends AppCompatActivity {
       "group"};
     String htmlText = String.format("Guess the <b> %s <b>", text[topicIndex]);
     whatToGuessText.setText(Html.fromHtml(htmlText));
+  }
+
+  public void updateElementView(){
+    TextView[] elementViewArray = {Mass, Symbol, Number, Period, Group, ElementName};
+
+    for (int i = 0; i < answers.size() ; i++) {
+      elementViewArray[i].setText(answers.get(i));
+    }
   }
 }

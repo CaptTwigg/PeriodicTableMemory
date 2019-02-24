@@ -7,6 +7,19 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Next"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="54sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ElementName" />
+
+    <TextView
         android:id="@+id/streak"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,6 +71,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="32dp"
             android:text="@string"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/answear3" />
@@ -69,6 +83,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginBottom="32dp"
             android:text="@string"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/answear4"
             app:layout_constraintStart_toStartOf="parent" />
@@ -79,6 +94,7 @@
             android:layout_height="150dp"
             android:layout_marginEnd="16dp"
             android:text="@string"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toTopOf="@+id/answear4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/answear1" />
@@ -90,19 +106,22 @@
             android:layout_marginStart="16dp"
             android:padding="10dp"
             android:text="@string"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toTopOf="@+id/answear3"
             app:layout_constraintEnd_toStartOf="@+id/answear2"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/info"
+            android:id="@+id/whatToGuess"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="99dp"
+            android:layout_marginEnd="99dp"
             android:layout_marginBottom="20dp"
             android:text="Guess the atomic mass"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/answear1"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
