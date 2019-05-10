@@ -10,4 +10,4 @@ After you have choosen all your guess the app shows the correct answers and high
 
 start of quiz                                    |  End of quiz 
 :-----------------------------------------------:|:-----------------------------------------------:
-<img src="/start.jpg" width="600" height="300" />  |  <img src="/end.jpg" width="600" height="300"/>
+<img src="/start.jpg" width="600" height="900" />  |  <img src="/end.jpg" width="600" height="900"/>
